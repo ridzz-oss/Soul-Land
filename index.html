@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Xiao Gang Loading</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+background:#000;
+font-family:Arial,sans-serif;
+}
+
+canvas{
+position:fixed;
+inset:0;
+width:100%;
+height:100%;
+display:block;
+}
+
+#loading{
+position:fixed;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:min(420px,90vw);
+padding:25px;
+border-radius:20px;
+background:rgba(0,0,0,.35);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,.1);
+color:white;
+text-align:center;
+}
+
+#logo{
+font-size:36px;
+font-weight:bold;
+letter-spacing:3px;
+margin-bottom:10px;
+text-shadow:
+0 0 10px cyan,
+0 0 25px cyan;
+}
+
+#status{
+font-size:14px;
+opacity:.8;
+margin-bottom:20px;
+}
+
+.bar{
+width:100%;
+height:18px;
+background:rgba(255,255,255,.12);
+border-radius:99px;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+width:0%;
+border-radius:99px;
+background:
+linear-gradient(
+90deg,
+#00d4ff,
+#00ffff,
+#00ff99
+);
+box-shadow:
+0 0 20px cyan;
+transition:.25s;
+}
+
+#persen{
+margin-top:12px;
+font-size:18px;
+font-weight:bold;
+}
+
+#rotate{
+display:none;
+position:fixed;
+inset:0;
+background:#000;
+z-index:9999;
+color:white;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+font-size:30px;
+text-align:center;
+}
+
+#rotateIcon{
+font-size:80px;
+animation:spin 2s linear infinite;
+margin-bottom:20px;
+}
+
+@keyframes spin{
+from{
+transform:rotate(0deg);
+}
+to{
+transform:rotate(90deg);
+}
+}
+
+.fadeout{
+animation:fadeout .6s forwards;
+}
+
+@keyframes fadeout{
+to{
+opacity:0;
+}
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div id="loading">
+
+<div id="logo">
+XIAO GANG
+</div>
+
+<div id="status">
+Initializing Renderer...
+</div>
+
+<div class="bar">
+<div
+class="fill"
+id="fill">
+</div>
+</div>
+
+<div id="persen">
+0%
+</div>
+
+</div>
+
+<div id="rotate">
+
+<div id="rotateIcon">
+📱
+</div>
+
+<div>
+Putar HP ke Landscape
+</div>
+
+</div>
+
+<script>
+
+const canvas =
+document.getElementById(
+"bg"
+);
+
+const ctx =
+canvas.getContext(
+"2d"
+);
+
+const fill =
+document.getElementById(
+"fill"
+);
+
+const persen =
+document.getElementById(
+"persen"
+);
+
+const status =
+document.getElementById(
+"status"
+);
+
+const rotate =
+document.getElementById(
+"rotate"
+);
+
+function resize(){
+
+canvas.width =
+innerWidth;
+
+canvas.height =
+innerHeight;
+
+}
+
+resize();
+
+addEventListener(
+"resize",
+resize
+);
+
+function checkRotate(){
+
+if(
+innerHeight >
+innerWidth
+){
+
+rotate.style.display =
+"flex";
+
+}else{
+
+rotate.style.display =
+"none";
+
+}
+
+}
+
+checkRotate();
+
+addEventListener(
+"resize",
+checkRotate
+);
+
+const stars = [];
+
+for(
+let i=0;
+i<160;
+i++
+){
+
+stars.push({
+
+x:
+Math.random()
+*innerWidth,
+
+y:
+Math.random()
+*innerHeight,
+
+r:
+Math.random()*2,
+
+s:
+Math.random()*0.8+0.2
+
+});
+
+}
+
+let renderFrames = 0;
+let renderReady = false;
+let fps = 0;
+let fpsFrames = 0;
+let fpsTime = performance.now();
+
+const debugMode =
+location.hash === "#debug";
+  
+function render(){
+
+fpsFrames++;
+
+const now =
+performance.now();
+
+if(
+now - fpsTime >= 1000
+){
+
+fps = fpsFrames;
+fpsFrames = 0;
+fpsTime = now;
+
+if(debugMode){
+
+console.clear();
+
+console.log(
+"FPS:",
+fps
+);
+
+}
+
+  }
+  
+requestAnimationFrame(
+render
+);
+
+renderFrames++;
+
+if(
+renderFrames >= 60
+){
+renderReady = true;
+}
+
+const g =
+ctx.createLinearGradient(
+0,
+0,
+0,
+canvas.height
+);
+
+g.addColorStop(
+0,
+"#07111f"
+);
+
+g.addColorStop(
+1,
+"#12396d"
+);
+
+ctx.fillStyle = g;
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+for(
+const s
+of stars
+){
+
+s.y += s.s;
+
+if(
+s.y >
+canvas.height
+){
+
+s.y = -5;
+
+s.x =
+Math.random()
+*canvas.width;
+
+}
+
+ctx.beginPath();
+
+ctx.fillStyle =
+"rgba(255,255,255,.9)";
+
+ctx.arc(
+s.x,
+s.y,
+s.r,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+}
+
+const t =
+Date.now()*0.001;
+
+const cloudX =
+Math.sin(t)
+*120;
+
+ctx.fillStyle =
+"rgba(255,255,255,.08)";
+
+ctx.beginPath();
+
+ctx.arc(
+canvas.width/2
++cloudX,
+120,
+80,
+0,
+Math.PI*2
+);
+
+ctx.arc(
+canvas.width/2
++70
++cloudX,
+100,
+65,
+0,
+Math.PI*2
+);
+
+ctx.arc(
+canvas.width/2
++130
++cloudX,
+120,
+60,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+}
+
+render();
+
+const assets = [
+
+{
+key:"xiaogang_v1",
+src:"Image/XiaoGang.png"
+}
+
+];
+let loaded = 0;
+let assetsReady = false;
+
+const steps = [
+
+"Initializing Renderer...",
+"Loading Textures...",
+"Loading Character...",
+"Building World...",
+"Preparing UI...",
+"Finalizing..."
+
+];
+
+for(
+const asset
+of assets
+){
+
+if(
+localStorage.getItem(
+asset.key
+)
+){
+
+assetDone();
+
+continue;
+
+}
+
+const img =
+new Image();
+
+img.onload = ()=>{
+
+localStorage.setItem(
+asset.key,
+"cached"
+);
+
+assetDone();
+
+};
+
+img.onerror =
+assetDone;
+
+img.src =
+asset.src;
+
+  }
+
+function assetDone(){
+
+loaded++;
+
+const p =
+Math.floor(
+loaded /
+assets.length *
+100
+);
+
+fill.style.width =
+p + "%";
+
+persen.innerHTML =
+p + "%";
+
+status.innerHTML =
+steps[
+Math.min(
+steps.length-1,
+Math.floor(
+(p/100)
+*
+steps.length
+)
+)
+];
+
+if(
+loaded >=
+assets.length
+){
+
+assetsReady = true;
+
+status.innerHTML =
+"Ready To Start";
+
+}
+
+}
+
+let entering = false;
+
+function waitReady(){
+
+requestAnimationFrame(
+waitReady
+);
+
+if(
+entering
+)return;
+
+if(
+assetsReady &&
+renderReady &&
+fps > 20 &&
+innerWidth >
+innerHeight
+){
+
+entering = true;
+
+document
+.getElementById(
+"loading"
+)
+.classList.add(
+"fadeout"
+);
+
+setTimeout(
+()=>{
+
+location.href =
+"game.html";
+
+},
+700
+);
+
+}
+
+}
+
+waitReady();
+
+</script>
+
+</body>
+  </html>

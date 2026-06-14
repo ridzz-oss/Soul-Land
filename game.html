@@ -1188,22 +1188,15 @@ spriteXiaoGang.src =
 "Image/XiaoGang.png";
 
 function gambarRumahAkademi(){
-    const x =
-    rumahAkademi.x -
-    kamera.x;
-    const tanahY =
-    kanvas.height -
-    tinggiRumput;
-    const lebarSprite =
-    rumahAkademi.lebar;
-    const tinggiSprite =
-    rumahAkademi.tinggi;
-    const y =
-    tanahY -
-    tinggiSprite;
-    if(
-        spriteAcademy.complete
-    ){
+
+    const x = rumahAkademi.x - kamera.x;
+    const tanahY = kanvas.height - tinggiRumput;
+
+    const lebarSprite = rumahAkademi.lebar;
+    const tinggiSprite = rumahAkademi.tinggi;
+    const y = tanahY - tinggiSprite;
+
+    if(spriteAcademy.complete){
         konteks.drawImage(
             spriteAcademy,
             x,
@@ -1212,6 +1205,7 @@ function gambarRumahAkademi(){
             tinggiSprite
         );
     }
+
 }
 
 function gambarXiaoGang(){

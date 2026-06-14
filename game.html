@@ -1101,61 +1101,6 @@ if(
 }
 
 
-/* =====================
-   XIAO GANG & RUMAH
-===================== */
-const rumahAkademi = {
-    x:1700,
-    lebar:360,
-    tinggi:240
-};
-
-const xiaoGang = {
-    x:1638,
-    lebar:64,
-    tinggi:120,
-    dialogAktif:false,
-    dialogTeks:"",
-    dialogTimer:0
-};
-
-let dekatXiaoGang = false;
-
-function gambarRumahAkademi(){
-
-    const x =
-    rumahAkademi.x -
-    kamera.x;
-
-    const y =
-    kanvas.height -
-    tinggiRumput -
-    rumahAkademi.tinggi;
-
-    /* Dinding */
-
-    konteks.fillStyle =
-    "#d8c3a5";
-
-    konteks.fillRect(
-        x,
-        y,
-        rumahAkademi.lebar,
-        rumahAkademi.tinggi
-    );
-
-    /* Atap */
-
-    konteks.fillStyle =
-    "#b22222";
-
-    konteks.beginPath();
-
-    konteks.moveTo(
-        x - 20,
-        y + 20
-    );
-
     konteks.lineTo(
         x + rumahAkademi.lebar/2,
         y - 70
@@ -1217,87 +1162,152 @@ function gambarRumahAkademi(){
     );
 }
 
+/* =====================
+   XIAO GANG & RUMAH
+===================== */
+const rumahAkademi = {
+    x:1700,
+    lebar:320,
+    tinggi:220
+};
+const xiaoGang = {
+    x:1638,
+    lebar:64,
+    tinggi:120,
+    dialogAktif:false,
+    dialogTeks:"",
+    dialogTimer:0
+};
+let dekatXiaoGang = false;
+const spriteAcademy =
+new Image();
+spriteAcademy.src =
+"Image/Academy.png";
 const spriteXiaoGang = new Image();
-spriteXiaoGang.src = "Image/XiaoGang.png";
+spriteXiaoGang.src =
+"Image/XiaoGang.png";
+
+function gambarRumahAkademi(){
+    const x =
+    rumahAkademi.x -
+    kamera.x;
+    const tanahY =
+    kanvas.height -
+    tinggiRumput;
+    const lebarSprite =
+    rumahAkademi.lebar;
+    const tinggiSprite =
+    rumahAkademi.tinggi;
+    const y =
+    tanahY -
+    tinggiSprite;
+    if(
+        spriteAcademy.complete
+    ){
+        konteks.drawImage(
+            spriteAcademy,
+            x,
+            y,
+            lebarSprite,
+            tinggiSprite
+        );
+    }
+}
 
 function gambarXiaoGang(){
 
     const x =
     xiaoGang.x - kamera.x;
 
-    const tanahY =
-    kanvas.height - tinggiRumput;
-
-    const lebarSprite = 64;
-    const tinggiSprite = 120;
-
-    /* offset ini buat "nempel" ke tanah */
-    const offsetBawah = 15;
-
     const y =
-    tanahY - tinggiSprite + offsetBawah;
+    kanvas.height -
+    tinggiRumput -
+    xiaoGang.tinggi;
 
     /* Nama */
-    konteks.fillStyle = "#ffd700";
-    konteks.font = "bold 16px Arial";
-    konteks.textAlign = "center";
+
+    konteks.fillStyle =
+    "#ffd700";
+
+    konteks.font =
+    "bold 16px Arial";
+
+    konteks.textAlign =
+    "center";
 
     konteks.fillText(
         "Xiao Gang",
-        x + lebarSprite / 2,
+        x + 32,
         y - 18
     );
 
     if(dekatXiaoGang){
 
-        konteks.fillStyle = "#ffffff";
-        konteks.font = "bold 14px Arial";
+        konteks.fillStyle =
+        "#ffffff";
+
+        konteks.font =
+        "bold 14px Arial";
 
         konteks.fillText(
             "Tap 💬",
-            x + lebarSprite / 2,
+            x + 32,
             y - 38
         );
 
     }
 
     /* Bayangan */
-    konteks.fillStyle = "rgba(0,0,0,.22)";
+
+    konteks.fillStyle =
+    "rgba(0,0,0,.22)";
+
     konteks.beginPath();
+
     konteks.ellipse(
-        x + lebarSprite / 2,
-        tanahY + 4,
+        x + 32,
+        y + 118,
         22,
         7,
         0,
         0,
         Math.PI * 2
     );
+
     konteks.fill();
 
     /* Sprite PNG */
+
     if(
         spriteXiaoGang.complete
     ){
+
         konteks.drawImage(
             spriteXiaoGang,
             x,
             y,
-            lebarSprite,
-            tinggiSprite
+            64,
+            120
         );
+
     }else{
-        konteks.fillStyle = "#333";
+
+        /* fallback kalau png belum siap */
+
+        konteks.fillStyle =
+        "#333";
+
         konteks.fillRect(
             x,
             y,
-            lebarSprite,
-            tinggiSprite
+            64,
+            120
         );
-    }
 
     }
-    
+
+}
+
 function gambarDialogXiaoGang(){
 
     if(xiaoGang.dialogTimer <= 0){
@@ -1387,8 +1397,8 @@ function bicaraXiaoGang(){
         "Anak muda, kau datang tepat waktu.\nMari kita lihat Jiwa Bela Diri milikmu nanti."
     );
 
-}
-
+    }
+    
 /* =====================
    GAMBAR DAMAGE
 ===================== */

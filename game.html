@@ -1189,25 +1189,28 @@ spriteXiaoGang.src =
 
 function gambarRumahAkademi(){
 
-    const x = rumahAkademi.x - kamera.x;
-    const tanahY = kanvas.height - tinggiRumput;
+    const x =
+    rumahAkademi.x - kamera.x;
 
-    const lebarSprite = rumahAkademi.lebar;
-    const tinggiSprite = rumahAkademi.tinggi;
-    const y = tanahY - tinggiSprite;
+    const tanahY =
+    kanvas.height - tinggiRumput;
 
-    if(spriteAcademy.complete){
+    const y =
+    tanahY - rumahAkademi.tinggi;
+
+    if(
+        spriteAcademy.complete
+    ){
         konteks.drawImage(
             spriteAcademy,
             x,
             y,
-            lebarSprite,
-            tinggiSprite
+            rumahAkademi.lebar,
+            rumahAkademi.tinggi
         );
     }
 
-}
-
+    }
 function gambarXiaoGang(){
 
     const x =

@@ -24,17 +24,17 @@
 "prefer_related_applications": false,
 
 "icons": [
-{
-"src": "Logo192.png",
-"sizes": "192x192",
-"type": "image/png",
-"purpose": "any maskable"
-},
-{
-"src": "Logo512.png",
-"sizes": "512x512",
-"type": "image/png",
-"purpose": "any maskable"
-}
+  {
+    "src": "Image/Logo192.png",
+    "sizes": "192x192",
+    "type": "image/png",
+    "purpose": "any maskable"
+  },
+  {
+    "src": "Image/Logo512.png",
+    "sizes": "512x512",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }
 ]
 }

@@ -1108,14 +1108,7 @@ const rumahAkademi = {
     lebar:320,
     tinggi:220
 };
-const xiaoGang = {
-    x:1638,
-    lebar:64,
-    tinggi:120,
-    dialogAktif:false,
-    dialogTeks:"",
-    dialogTimer:0
-};
+
 let dekatXiaoGang = false;
 const spriteAcademy =
 new Image();
@@ -1150,102 +1143,81 @@ function gambarRumahAkademi(){
     }
 
     }
+const areaXiaoGang = {
+    sx: 240,
+    sy: 180,
+    sw: 560,
+    sh: 1220
+};
+
 function gambarXiaoGang(){
 
     const x =
     xiaoGang.x - kamera.x;
-    
-    const offsetBawah = 50;
-    
+
+    const tanahY =
+    kanvas.height - tinggiRumput;
+
+    const tinggiRender = 120;
+    const lebarRender = 56;
+
     const y =
-    kanvas.height -
-    tinggiRumput -
-    xiaoGang.tinggi + offsetBawah;
+    tanahY - tinggiRender + 12;
 
-    /* Nama */
-
-    konteks.fillStyle =
-    "#ffd700";
-
-    konteks.font =
-    "bold 16px Arial";
-
-    konteks.textAlign =
-    "center";
+    konteks.fillStyle = "#ffd700";
+    konteks.font = "bold 16px Arial";
+    konteks.textAlign = "center";
 
     konteks.fillText(
         "Xiao Gang",
-        x + 32,
+        x + lebarRender / 2,
         y - 18
     );
 
     if(dekatXiaoGang){
 
-        konteks.fillStyle =
-        "#ffffff";
-
-        konteks.font =
-        "bold 14px Arial";
+        konteks.fillStyle = "#ffffff";
+        konteks.font = "bold 14px Arial";
 
         konteks.fillText(
             "Tap 💬",
-            x + 32,
+            x + lebarRender / 2,
             y - 38
         );
 
     }
 
-    /* Bayangan */
-
-    konteks.fillStyle =
-    "rgba(0,0,0,.22)";
-
+    konteks.fillStyle = "rgba(0,0,0,.22)";
     konteks.beginPath();
-
     konteks.ellipse(
-        x + 32,
-        y + 118,
+        x + lebarRender / 2,
+        tanahY + 4,
         22,
         7,
         0,
         0,
         Math.PI * 2
     );
-
     konteks.fill();
 
-    /* Sprite PNG */
-
-    if(
-        spriteXiaoGang.complete
-    ){
+    if(spriteXiaoGang.complete){
 
         konteks.drawImage(
             spriteXiaoGang,
+            areaXiaoGang.sx,
+            areaXiaoGang.sy,
+            areaXiaoGang.sw,
+            areaXiaoGang.sh,
             x,
             y,
-            64,
-            120
-        );
-
-    }else{
-
-        /* fallback kalau png belum siap */
-
-        konteks.fillStyle =
-        "#333";
-
-        konteks.fillRect(
-            x,
-            y,
-            64,
-            120
+            lebarRender,
+            tinggiRender
         );
 
     }
 
-}
-
+    }
+        
 function gambarDialogXiaoGang(){
 
     if(xiaoGang.dialogTimer <= 0){

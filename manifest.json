@@ -3,7 +3,7 @@
 "short_name": "SoulPixel",
 "description": "Game pixel sandbox online terinspirasi dunia Soul Land. Bangun dunia, kumpulkan item, bertarung, dan berkembang bersama pemain lain.",
 
-"start_url": "./Index.html",
+"start_url": "./index.html",
 "scope": "./",
 
 "display": "fullscreen",

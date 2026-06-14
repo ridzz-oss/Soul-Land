@@ -1150,12 +1150,6 @@ function gambarRumahAkademi(){
     }
 
     }
-const areaXiaoGang = {
-    sx: 240,
-    sy: 180,
-    sw: 560,
-    sh: 1220
-};
 
 function gambarXiaoGang(){
 
@@ -1165,19 +1159,23 @@ function gambarXiaoGang(){
     const tanahY =
     kanvas.height - tinggiRumput;
 
-    const tinggiRender = 120;
-    const lebarRender = 56;
+    const lebarSprite = 64;
+    const tinggiSprite = 120;
+
+    /* offset ini buat "nempel" ke tanah */
+    const offsetBawah = 10;
 
     const y =
-    tanahY - tinggiRender + 12;
+    tanahY - tinggiSprite + offsetBawah;
 
+    /* Nama */
     konteks.fillStyle = "#ffd700";
     konteks.font = "bold 16px Arial";
     konteks.textAlign = "center";
 
     konteks.fillText(
         "Xiao Gang",
-        x + lebarRender / 2,
+        x + lebarSprite / 2,
         y - 18
     );
 
@@ -1188,16 +1186,17 @@ function gambarXiaoGang(){
 
         konteks.fillText(
             "Tap 💬",
-            x + lebarRender / 2,
+            x + lebarSprite / 2,
             y - 38
         );
 
     }
 
+    /* Bayangan */
     konteks.fillStyle = "rgba(0,0,0,.22)";
     konteks.beginPath();
     konteks.ellipse(
-        x + lebarRender / 2,
+        x + lebarSprite / 2,
         tanahY + 4,
         22,
         7,
@@ -1207,20 +1206,25 @@ function gambarXiaoGang(){
     );
     konteks.fill();
 
-    if(spriteXiaoGang.complete){
-
+    /* Sprite PNG */
+    if(
+        spriteXiaoGang.complete
+    ){
         konteks.drawImage(
             spriteXiaoGang,
-            areaXiaoGang.sx,
-            areaXiaoGang.sy,
-            areaXiaoGang.sw,
-            areaXiaoGang.sh,
             x,
             y,
-            lebarRender,
-            tinggiRender
+            lebarSprite,
+            tinggiSprite
         );
-
+    }else{
+        konteks.fillStyle = "#333";
+        konteks.fillRect(
+            x,
+            y,
+            lebarSprite,
+            tinggiSprite
+        );
     }
 
     }

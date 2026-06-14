@@ -1,0 +1,40 @@
+{
+"name": "Soul Land Pixel",
+"short_name": "SoulPixel",
+"description": "Game pixel sandbox online terinspirasi dunia Soul Land. Bangun dunia, kumpulkan item, bertarung, dan berkembang bersama pemain lain.",
+
+"start_url": "./Index.html",
+"scope": "./",
+
+"display": "fullscreen",
+"orientation": "landscape",
+
+"background_color": "#101820",
+"theme_color": "#2E86FF",
+
+"lang": "id-ID",
+"dir": "ltr",
+
+"categories": [
+"games",
+"role-playing",
+"adventure"
+],
+
+"prefer_related_applications": false,
+
+"icons": [
+{
+"src": "Logo192.png",
+"sizes": "192x192",
+"type": "image/png",
+"purpose": "any maskable"
+},
+{
+"src": "Logo512.png",
+"sizes": "512x512",
+"type": "image/png",
+"purpose": "any maskable"
+}
+]
+}

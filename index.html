@@ -447,11 +447,23 @@ const assets = [
 {
 key:"xiaogang_v1",
 src:"Image/XiaoGang.png"
+},
+
+{
+key:"academy_v1",
+src:"Image/Academy.png"
 }
 
 ];
+
 let loaded = 0;
 let assetsReady = false;
+
+let visualProgress = 0;
+let realProgress = 0;
+
+const MIN_LOADING_TIME = 3500;
+const startLoadingTime = Date.now();
 
 const steps = [
 
@@ -475,7 +487,10 @@ asset.key
 )
 ){
 
-assetDone();
+setTimeout(
+assetDone,
+150
+);
 
 continue;
 
@@ -501,31 +516,25 @@ assetDone;
 img.src =
 asset.src;
 
-  }
+}
 
 function assetDone(){
 
 loaded++;
 
-const p =
+realProgress =
 Math.floor(
 loaded /
 assets.length *
 100
 );
 
-fill.style.width =
-p + "%";
-
-persen.innerHTML =
-p + "%";
-
 status.innerHTML =
 steps[
 Math.min(
 steps.length-1,
 Math.floor(
-(p/100)
+(realProgress/100)
 *
 steps.length
 )
@@ -540,11 +549,47 @@ assets.length
 assetsReady = true;
 
 status.innerHTML =
-"Ready To Start";
+"Assets Loaded";
 
 }
 
 }
+
+function visualLoading(){
+
+requestAnimationFrame(
+visualLoading
+);
+
+if(
+visualProgress <
+realProgress
+){
+
+visualProgress += 0.6;
+
+}
+
+if(
+visualProgress > realProgress
+){
+
+visualProgress =
+realProgress;
+
+}
+
+fill.style.width =
+visualProgress + "%";
+
+persen.innerHTML =
+Math.floor(
+visualProgress
+) + "%";
+
+}
+
+visualLoading();
 
 let entering = false;
 
@@ -558,15 +603,37 @@ if(
 entering
 )return;
 
+const loadingTimeDone =
+
+Date.now()
+-
+startLoadingTime
+
+>=
+
+MIN_LOADING_TIME;
+
 if(
+
 assetsReady &&
+
 renderReady &&
+
 fps > 20 &&
+
+visualProgress >= 100 &&
+
+loadingTimeDone &&
+
 innerWidth >
 innerHeight
+
 ){
 
 entering = true;
+
+status.innerHTML =
+"Entering World...";
 
 document
 .getElementById(
@@ -595,4 +662,5 @@ waitReady();
 </script>
 
 </body>
-  </html>
+    </html>
+    

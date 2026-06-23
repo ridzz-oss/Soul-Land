@@ -1,34 +1,109 @@
-const monsterRoh = {
-    x:900,
+const monster = [
+
+{
+    nama:"Kepiting Batu",
+    umur:"10 Tahun",
+    warnaNama:"#ffffff",
+
+    x:0,
     y:0,
+
     lebar:48,
     tinggi:48,
+
+    arah:1,
+    kecepatan:0.8,
+
+    hp:25,
+    hpMaks:25,
+    hidup:true,
+
+    damage:4,
+    cooldownSerang:0,
+    respawnTimer:0,
+
+    xMin:100,
+    xMax:600,
+
+    ai:"kepiting"
+},
+
+{
+    nama:"Roh Biru",
+    umur:"1 Juta Tahun",
+    warnaNama:"#00ffff",
+
+    x:0,
+    y:0,
+
+    lebar:48,
+    tinggi:48,
+
     arah:1,
     kecepatan:1.2,
+
     hp:50,
     hpMaks:50,
     hidup:true,
+
     damage:8,
     cooldownSerang:0,
-    respawnTimer:0
-};
+    respawnTimer:0,
 
-function gambarMonsterRoh(){
+    xMin:1500,
+    xMax:2200,
+
+    ai:"roh"
+}
+
+];
+
+const monsterKepiting =
+monster[0];
+
+const monsterRoh =
+monster[1];
+
+function acakXMonster(
+    m
+){
+    m.x =
+    Math.floor(
+        Math.random() *
+        (
+            m.xMax -
+            m.xMin + 1
+        )
+    ) +
+    m.xMin;
+}
+
+acakXMonster(
+    monsterKepiting
+);
+
+acakXMonster(
+    monsterRoh
+);
+
+function gambarMonster(
+    m
+){
 
     if(
-        !monsterRoh.hidup
+        !m.hidup
     ){
         return;
     }
 
     const x =
-    monsterRoh.x -
+    m.x -
     kamera.x;
 
     const y =
     kanvas.height -
     tinggiRumput -
-    monsterRoh.tinggi;
+    m.tinggi;
 
     /* BAYANGAN */
 
@@ -44,73 +119,206 @@ function gambarMonsterRoh(){
 
     /* TUBUH */
 
-    konteks.fillStyle =
-    "#66ccff";
+    if(
+        m.ai === "kepiting"
+    ){
+        // kepiting batu
 
-    konteks.fillRect(
-        x,
-        y,
-        48,
-        48
-    );
+        konteks.fillStyle =
+        "#cc4444";
 
-    /* MATA */
+        konteks.fillRect(
+            x,
+            y + 10,
+            48,
+            28
+        );
 
-    konteks.fillStyle =
-    "#fff";
+        /* CAPIT */
 
-    konteks.fillRect(
-        x + 8,
-        y + 10,
-        10,
-        10
-    );
+        konteks.fillStyle =
+        "#aa3333";
 
-    konteks.fillRect(
-        x + 30,
-        y + 10,
-        10,
-        10
-    );
+        konteks.fillRect(
+            x - 10,
+            y + 18,
+            12,
+            10
+        );
 
-    konteks.fillStyle =
-    "#000";
+        konteks.fillRect(
+            x + 46,
+            y + 18,
+            12,
+            10
+        );
 
-    konteks.fillRect(
-        x + 12,
-        y + 14,
-        3,
-        3
-    );
+        /* MATA */
 
-    konteks.fillRect(
-        x + 34,
-        y + 14,
-        3,
-        3
-    );
+        konteks.fillStyle =
+        "#fff";
+
+        konteks.fillRect(
+            x + 12,
+            y + 2,
+            6,
+            10
+        );
+
+        konteks.fillRect(
+            x + 30,
+            y + 2,
+            6,
+            10
+        );
+
+        konteks.fillStyle =
+        "#000";
+
+        konteks.fillRect(
+            x + 14,
+            y + 6,
+            2,
+            2
+        );
+
+        konteks.fillRect(
+            x + 32,
+            y + 6,
+            2,
+            2
+        );
+
+        /* KAKI */
+
+        konteks.fillStyle =
+        "#aa3333";
+
+        konteks.fillRect(
+            x + 4,
+            y + 36,
+            6,
+            8
+        );
+
+        konteks.fillRect(
+            x + 14,
+            y + 36,
+            6,
+            8
+        );
+
+        konteks.fillRect(
+            x + 28,
+            y + 36,
+            6,
+            8
+        );
+
+        konteks.fillRect(
+            x + 38,
+            y + 36,
+            6,
+            8
+        );
+
+    }else{
+        // roh biru
+
+        konteks.fillStyle =
+        "#66ccff";
+
+        konteks.fillRect(
+            x,
+            y,
+            48,
+            48
+        );
+
+        /* MATA */
+
+        konteks.fillStyle =
+        "#fff";
+
+        konteks.fillRect(
+            x + 8,
+            y + 10,
+            10,
+            10
+        );
+
+        konteks.fillRect(
+            x + 30,
+            y + 10,
+            10,
+            10
+        );
+
+        konteks.fillStyle =
+        "#000";
+
+        konteks.fillRect(
+            x + 12,
+            y + 14,
+            3,
+            3
+        );
+
+        konteks.fillRect(
+            x + 34,
+            y + 14,
+            3,
+            3
+        );
+    }
 
     /* Bar Hp */
-    konteks.fillStyle="#222";
+
+    konteks.fillStyle =
+    "#222";
+
     konteks.fillRect(
         x,
-        y-30,
+        y - 30,
         48,
         5
     );
-    konteks.fillStyle="#ff4444";
+
+    konteks.fillStyle =
+    "#ff4444";
+
     konteks.fillRect(
         x,
-        y-30,
-        48*
-        (monsterRoh.hp/monsterRoh.hpMaks),
+        y - 30,
+        48 *
+        (
+            m.hp /
+            m.hpMaks
+        ),
         5
+    );
+
+    /* UMUR */
+
+    konteks.fillStyle =
+    m.warnaNama;
+
+    konteks.font =
+    "12px Arial";
+
+    konteks.textAlign =
+    "center";
+
+    konteks.fillText(
+        m.umur,
+        x + 24,
+        y - 42
     );
 
     /* NAMA */
 
     konteks.fillStyle =
-    "#00ffff";
+    m.warnaNama;
 
     konteks.font =
     "bold 14px Arial";
@@ -119,11 +327,22 @@ function gambarMonsterRoh(){
     "center";
 
     konteks.fillText(
-        "Roh Biru",
+        m.nama,
         x + 24,
         y - 12
     );
+}
 
+function gambarMonsterKepiting(){
+    gambarMonster(
+        monsterKepiting
+    );
+}
+
+function gambarMonsterRoh(){
+    gambarMonster(
+        monsterRoh
+    );
 }
 
 function pukulMonster(){
@@ -139,148 +358,175 @@ function pukulMonster(){
 
     pemain.animasiPukul = 12;
 
-    const jarak =
-    Math.abs(
-        pemain.x -
-        monsterRoh.x
-    );
+    let target = null;
+    let jarakTerkecil = 999999;
 
-    if(
-        jarak < 90 &&
-        monsterRoh.hidup
+    for(
+        const m of monster
     ){
 
-        monsterRoh.hp -= 10;
-        buatDamage(
-            monsterRoh.x,
-            kanvas.height-180,
-            "-10",
-            "#ff3333"
-         );
+        if(
+            !m.hidup
+        ){
+            continue;
+        }
 
-if(
-    pemain.arah==="kanan"
-){
-    monsterRoh.x += 25;
-}else{
-    monsterRoh.x -= 25;
-}
+        const jarak =
+        Math.abs(
+            pemain.x -
+            m.x
+        );
 
         if(
-            monsterRoh.hp <= 0
+            jarak < 90 &&
+            jarak < jarakTerkecil
         ){
-
-            monsterRoh.hp = 0;
-            monsterRoh.hidup = false;
-            monsterRoh.respawnTimer = 300;
-
-         }
-
+            target = m;
+            jarakTerkecil = jarak;
+        }
     }
 
+    if(
+        target
+    ){
+
+        target.hp -= 10;
+
+        buatDamage(
+            target.x,
+            kanvas.height - 180,
+            "-10",
+            "#ff3333"
+        );
+
+        if(
+            pemain.arah === "kanan"
+        ){
+            target.x += 25;
+        }else{
+            target.x -= 25;
+        }
+
+        if(
+            target.hp <= 0
+        ){
+
+            target.hp = 0;
+            target.hidup = false;
+            target.respawnTimer = 300;
+        }
+    }
 }
 
 function perbaruiMonster(){
-if(
-    monsterRoh.hidup
-){
 
-    monsterRoh.x +=
-    monsterRoh.kecepatan *
-    monsterRoh.arah;
-
-}
-
-if(
-    !monsterRoh.hidup
-){
-
-    monsterRoh.respawnTimer--;
-
-    if(
-        monsterRoh.respawnTimer <= 0
+    for(
+        const m of monster
     ){
-
-        monsterRoh.hp =
-        monsterRoh.hpMaks;
-
-        monsterRoh.hidup =
-        true;
-
-        monsterRoh.x =
-        900;
-
-    }
-
-}
-
-const jarakMonster =
-Math.abs(
-    monsterRoh.x -
-    pemain.x
-);
-
-if(
-    !pemain.mati &&
-    monsterRoh.hidup &&
-    jarakMonster < 60
-){
-
-    if(
-        monsterRoh.cooldownSerang<=0
-    ){
-
-        pemain.hp -=
-        monsterRoh.damage;
-
-if(
-    pemain.hp <= 0
-){
-    pemain.hp = 0;
-    pemain.mati = true;
-}
-
-        buatDamage(
-            pemain.x,
-            pemain.y,
-            "-8",
-            "#ffff00"
-        );
-
-        monsterRoh.cooldownSerang = 60;
 
         if(
-            monsterRoh.x <
-            pemain.x
+            m.hidup
         ){
-            pemain.knockbackX = 12;
-        }else{
-            pemain.knockbackX = -12;
+
+            m.x +=
+            m.kecepatan *
+            m.arah;
         }
 
+        if(
+            !m.hidup
+        ){
+
+            m.respawnTimer--;
+
+            if(
+                m.respawnTimer <= 0
+            ){
+
+                m.hp =
+                m.hpMaks;
+
+                m.hidup =
+                true;
+
+                acakXMonster(
+                    m
+                );
+            }
+        }
+
+        const jarakMonster =
+        Math.abs(
+            m.x -
+            pemain.x
+        );
+
+        if(
+            !pemain.mati &&
+            m.hidup &&
+            jarakMonster < 60
+        ){
+
+            if(
+                m.cooldownSerang <= 0
+            ){
+
+                pemain.hp -=
+                m.damage;
+
+                if(
+                    pemain.hp <= 0
+                ){
+                    pemain.hp = 0;
+                    pemain.mati = true;
+                }
+
+                buatDamage(
+                    pemain.x,
+                    pemain.y,
+                    "-" + m.damage,
+                    "#ffff00"
+                );
+
+                m.cooldownSerang = 60;
+
+                if(
+                    m.x <
+                    pemain.x
+                ){
+                    pemain.knockbackX = 12;
+                }else{
+                    pemain.knockbackX = -12;
+                }
+            }
+        }
+
+        if(
+            m.cooldownSerang > 0
+        ){
+            m.cooldownSerang--;
+        }
     }
-
-}
-
-if(
-    monsterRoh.cooldownSerang>0
-){
-    monsterRoh.cooldownSerang--;
-}
 }
 
 function patroliMonster(){
-if(
-    monsterRoh.hidup &&
-    monsterRoh.x > 1200
-){
-    monsterRoh.arah = -1;
-}
 
-if(
-    monsterRoh.hidup &&
-    monsterRoh.x < 800
-){
-    monsterRoh.arah = 1;
-}
-}
+    for(
+        const m of monster
+    ){
+
+        if(
+            m.hidup &&
+            m.x > m.xMax
+        ){
+            m.arah = -1;
+        }
+
+        if(
+            m.hidup &&
+            m.x < m.xMin
+        ){
+            m.arah = 1;
+        }
+    }
+        }

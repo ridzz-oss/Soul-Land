@@ -1108,6 +1108,7 @@ function render(){
     gambarRumput();
     gambarRumahAkademi();
     gambarXiaoGang();
+    gambarMonsterKepiting();
     gambarMonsterRoh();
     gambarPemain();
     gambarDamage();

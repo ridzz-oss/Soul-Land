@@ -222,17 +222,73 @@ function gambarMonster(
             8
         );
 
-    }else{
-        // roh biru
+    }else if(
+        m.ai === "roh"
+    ){
+        // roh biru bentuk slime
+
+        /* BODY BLOBS */
 
         konteks.fillStyle =
-        "#66ccff";
+        "#4fbfff";
 
         konteks.fillRect(
-            x,
-            y,
-            48,
-            48
+            x + 14,
+            y + 2,
+            20,
+            8
+        );
+
+        konteks.fillRect(
+            x + 8,
+            y + 8,
+            32,
+            8
+        );
+
+        konteks.fillRect(
+            x + 4,
+            y + 14,
+            40,
+            10
+        );
+
+        konteks.fillRect(
+            x + 2,
+            y + 22,
+            44,
+            10
+        );
+
+        konteks.fillRect(
+            x + 4,
+            y + 30,
+            40,
+            8
+        );
+
+        konteks.fillRect(
+            x + 8,
+            y + 36,
+            32,
+            6
+        );
+
+        konteks.fillStyle =
+        "#7ad9ff";
+
+        konteks.fillRect(
+            x + 10,
+            y + 6,
+            28,
+            6
+        );
+
+        konteks.fillRect(
+            x + 8,
+            y + 16,
+            32,
+            6
         );
 
         /* MATA */
@@ -241,34 +297,46 @@ function gambarMonster(
         "#fff";
 
         konteks.fillRect(
-            x + 8,
-            y + 10,
-            10,
-            10
+            x + 13,
+            y + 16,
+            8,
+            8
         );
 
         konteks.fillRect(
-            x + 30,
-            y + 10,
-            10,
-            10
+            x + 27,
+            y + 16,
+            8,
+            8
         );
 
         konteks.fillStyle =
         "#000";
 
         konteks.fillRect(
-            x + 12,
-            y + 14,
-            3,
-            3
+            x + 16,
+            y + 19,
+            2,
+            2
         );
 
         konteks.fillRect(
-            x + 34,
-            y + 14,
-            3,
-            3
+            x + 30,
+            y + 19,
+            2,
+            2
+        );
+
+        /* MULUT / GARIS BAWAH */
+
+        konteks.fillStyle =
+        "#2b88b8";
+
+        konteks.fillRect(
+            x + 16,
+            y + 28,
+            16,
+            2
         );
     }
 

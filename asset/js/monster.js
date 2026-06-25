@@ -4,9 +4,6 @@ new Image();
 gambarAzurePurba.src =
 "Image/AzurePurba.png";
 
-konteks.imageSmoothingEnabled =
-false;
-
 const monster = [
 
 {

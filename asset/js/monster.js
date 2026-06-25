@@ -1,3 +1,12 @@
+const gambarAzurePurba =
+new Image();
+
+gambarAzurePurba.src =
+"Image/AzurePurba.png";
+
+konteks.imageSmoothingEnabled =
+false;
+
 const monster = [
 
 {
@@ -29,15 +38,15 @@ const monster = [
 },
 
 {
-    nama:"Roh Biru",
+    nama:"Azure Purba",
     umur:"1 Juta Tahun",
     warnaNama:"#00ffff",
 
     x:0,
     y:0,
 
-    lebar:48,
-    tinggi:48,
+    lebar:64,
+    tinggi:64,
 
     arah:1,
     kecepatan:1.2,
@@ -53,7 +62,17 @@ const monster = [
     xMin:1500,
     xMax:2200,
 
-    ai:"roh"
+    ai:"azure",
+
+    frame:0,
+    frameTimer:0,
+
+    status:"jalan",
+
+    timerGenangan:0,
+
+    delaySerang:0,
+    serangSudahKena:false
 }
 
 ];
@@ -61,8 +80,104 @@ const monster = [
 const monsterKepiting =
 monster[0];
 
-const monsterRoh =
+const monsterAzurePurba =
 monster[1];
+
+const frameAzureJalan = [
+
+[
+    53,
+    138,
+    297,
+    164
+],
+
+[
+    396,
+    138,
+    299,
+    164
+],
+
+[
+    733,
+    137,
+    312,
+    165
+],
+
+[
+    1117,
+    137,
+    324,
+    165
+]
+
+];
+
+const frameAzureSerang = [
+
+[
+    46,
+    397,
+    304,
+    163
+],
+
+[
+    390,
+    397,
+    339,
+    163
+],
+
+[
+    733,
+    385,
+    352,
+    175
+],
+
+[
+    1118,
+    397,
+    335,
+    163
+]
+
+];
+
+const frameAzureMati = [
+
+[
+    45,
+    721,
+    312,
+    151
+],
+
+[
+    386,
+    713,
+    329,
+    158
+],
+
+[
+    741,
+    773,
+    351,
+    97
+],
+
+[
+    1152,
+    816,
+    314,
+    54
+]
+
+];
 
 function acakXMonster(
     m
@@ -83,7 +198,7 @@ acakXMonster(
 );
 
 acakXMonster(
-    monsterRoh
+    monsterAzurePurba
 );
 
 function gambarMonster(
@@ -91,7 +206,11 @@ function gambarMonster(
 ){
 
     if(
-        !m.hidup
+        !m.hidup &&
+        !(
+            m.ai === "azure" &&
+            m.status === "mati"
+        )
     ){
         return;
     }
@@ -110,19 +229,30 @@ function gambarMonster(
     konteks.fillStyle =
     "rgba(0,0,0,.2)";
 
-    konteks.fillRect(
-        x + 8,
-        y + 45,
-        30,
-        5
-    );
+    if(
+        m.ai === "azure"
+    ){
+        konteks.fillRect(
+            x + 10,
+            y + 58,
+            44,
+            6
+        );
+    }else{
+        konteks.fillRect(
+            x + 8,
+            y + 45,
+            30,
+            5
+        );
+    }
 
     /* TUBUH */
 
     if(
         m.ai === "kepiting"
     ){
-        // kepiting batu
+        /* kepiting batu */
 
         konteks.fillStyle =
         "#cc4444";
@@ -222,156 +352,55 @@ function gambarMonster(
             8
         );
 
-}else if(
-    m.ai === "roh"
-){
-    // roh biru slime besar
+    }else if(
+        m.ai === "azure"
+    ){
+        /* Azure Purba */
 
-    /* PUNCAK */
+        let frameY =
+        0;
 
-    konteks.fillStyle =
-    "#8ee8ff";
+        let source =
+        frameAzureJalan;
 
-    konteks.fillRect(
-        x + 20,
-        y,
-        8,
-        4
-    );
+        if(
+            m.status === "jalan"
+        ){
+            source = frameAzureJalan;
+            frameY = 0;
+        }else if(
+            m.status === "serang"
+        ){
+            source = frameAzureSerang;
+            frameY = 0;
+        }else if(
+            m.status === "mati"
+        ){
+            source = frameAzureMati;
+            frameY = 0;
+        }
 
-    konteks.fillRect(
-        x + 16,
-        y + 4,
-        16,
-        4
-    );
+        const rect =
+        source[
+            m.frame
+        ];
 
-    /* KEPALA */
-
-    konteks.fillStyle =
-    "#7ad9ff";
-
-    konteks.fillRect(
-        x + 10,
-        y + 8,
-        28,
-        6
-    );
-
-    konteks.fillRect(
-        x + 6,
-        y + 14,
-        36,
-        6
-    );
-
-    /* BADAN ATAS */
-
-    konteks.fillStyle =
-    "#66ccff";
-
-    konteks.fillRect(
-        x + 2,
-        y + 20,
-        44,
-        8
-    );
-
-    konteks.fillRect(
-        x,
-        y + 28,
-        48,
-        8
-    );
-
-    /* BADAN TENGAH */
-
-    konteks.fillRect(
-        x,
-        y + 36,
-        48,
-        8
-    );
-
-    /* BADAN BAWAH */
-
-    konteks.fillRect(
-        x + 2,
-        y + 44,
-        44,
-        4
-    );
-
-    /* KILAU */
-
-    konteks.fillStyle =
-    "#bdf4ff";
-
-    konteks.fillRect(
-        x + 10,
-        y + 12,
-        10,
-        3
-    );
-
-    konteks.fillRect(
-        x + 8,
-        y + 18,
-        6,
-        2
-    );
-
-    /* MATA */
-
-    konteks.fillStyle =
-    "#ffffff";
-
-    konteks.fillRect(
-        x + 13,
-        y + 24,
-        8,
-        8
-    );
-
-    konteks.fillRect(
-        x + 27,
-        y + 24,
-        8,
-        8
-    );
-
-    /* PUPIL */
-
-    konteks.fillStyle =
-    "#000";
-
-    konteks.fillRect(
-        x + 16,
-        y + 27,
-        2,
-        2
-    );
-
-    konteks.fillRect(
-        x + 30,
-        y + 27,
-        2,
-        2
-    );
-
-    /* MULUT */
-
-    konteks.fillStyle =
-    "#2f8eb8";
-
-    konteks.fillRect(
-        x + 18,
-        y + 37,
-        12,
-        2
-    );
-            }
-    
+        if(
+            rect
+        ){
+            konteks.drawImage(
+                gambarAzurePurba,
+                rect[0],
+                rect[1],
+                rect[2],
+                rect[3],
+                x - 8,
+                y - 8,
+                64,
+                64
+            );
+        }
+    }
 
     /* Bar Hp */
 
@@ -381,7 +410,7 @@ function gambarMonster(
     konteks.fillRect(
         x,
         y - 30,
-        48,
+        m.lebar,
         5
     );
 
@@ -391,7 +420,7 @@ function gambarMonster(
     konteks.fillRect(
         x,
         y - 30,
-        48 *
+        m.lebar *
         (
             m.hp /
             m.hpMaks
@@ -412,7 +441,7 @@ function gambarMonster(
 
     konteks.fillText(
         m.umur,
-        x + 24,
+        x + m.lebar / 2,
         y - 42
     );
 
@@ -429,7 +458,7 @@ function gambarMonster(
 
     konteks.fillText(
         m.nama,
-        x + 24,
+        x + m.lebar / 2,
         y - 12
     );
 }
@@ -440,10 +469,14 @@ function gambarMonsterKepiting(){
     );
 }
 
-function gambarMonsterRoh(){
+function gambarMonsterAzurePurba(){
     gambarMonster(
-        monsterRoh
+        monsterAzurePurba
     );
+}
+
+function gambarMonsterRoh(){
+    gambarMonsterAzurePurba();
 }
 
 function pukulMonster(){
@@ -467,7 +500,11 @@ function pukulMonster(){
     ){
 
         if(
-            !m.hidup
+            !m.hidup &&
+            !(
+                m.ai === "azure" &&
+                m.status === "mati"
+            )
         ){
             continue;
         }
@@ -513,8 +550,23 @@ function pukulMonster(){
         ){
 
             target.hp = 0;
-            target.hidup = false;
-            target.respawnTimer = 300;
+
+            if(
+                target.ai === "azure"
+            ){
+
+                target.status = "mati";
+                target.frame = 0;
+                target.frameTimer = 0;
+                target.timerGenangan = 180;
+                target.delaySerang = 0;
+                target.serangSudahKena = false;
+
+            }else{
+
+                target.hidup = false;
+                target.respawnTimer = 300;
+            }
         }
     }
 }
@@ -526,12 +578,131 @@ function perbaruiMonster(){
     ){
 
         if(
+            m.ai === "azure" &&
+            m.status === "mati"
+        ){
+
+            m.frameTimer++;
+
+            if(
+                m.frame < 3 &&
+                m.frameTimer >= 12
+            ){
+                m.frameTimer = 0;
+                m.frame++;
+            }
+
+            m.timerGenangan--;
+
+            if(
+                m.timerGenangan <= 0
+            ){
+
+                m.hidup = false;
+                m.respawnTimer = 300;
+            }
+
+            continue;
+        }
+
+        if(
             m.hidup
         ){
 
             m.x +=
             m.kecepatan *
             m.arah;
+        }
+
+        if(
+            m.ai === "azure"
+        ){
+
+            m.frameTimer++;
+
+            if(
+                m.status === "jalan"
+            ){
+
+                if(
+                    m.frameTimer >= 10
+                ){
+
+                    m.frameTimer = 0;
+                    m.frame++;
+
+                    if(
+                        m.frame > 3
+                    ){
+                        m.frame = 0;
+                    }
+                }
+            }
+
+            if(
+                m.status === "serang"
+            ){
+
+                m.delaySerang--;
+
+                if(
+                    m.delaySerang <= 0 &&
+                    !m.serangSudahKena
+                ){
+
+                    if(
+                        !pemain.mati &&
+                        Math.abs(
+                            m.x - pemain.x
+                        ) < 70
+                    ){
+
+                        pemain.hp -= m.damage;
+
+                        if(
+                            pemain.hp <= 0
+                        ){
+                            pemain.hp = 0;
+                            pemain.mati = true;
+                        }
+
+                        buatDamage(
+                            pemain.x,
+                            pemain.y,
+                            "-" + m.damage,
+                            "#ffff00"
+                        );
+
+                        if(
+                            m.x < pemain.x
+                        ){
+                            pemain.knockbackX = 12;
+                        }else{
+                            pemain.knockbackX = -12;
+                        }
+                    }
+
+                    m.serangSudahKena = true;
+                }
+
+                if(
+                    m.frameTimer >= 8
+                ){
+
+                    m.frameTimer = 0;
+                    m.frame++;
+
+                    if(
+                        m.frame > 3
+                    ){
+
+                        m.frame = 0;
+                        m.status = "jalan";
+                        m.serangSudahKena = false;
+                        m.delaySerang = 0;
+                    }
+                }
+            }
         }
 
         if(
@@ -550,6 +721,15 @@ function perbaruiMonster(){
                 m.hidup =
                 true;
 
+                m.status =
+                "jalan";
+
+                m.frame = 0;
+                m.frameTimer = 0;
+                m.timerGenangan = 0;
+                m.delaySerang = 0;
+                m.serangSudahKena = false;
+
                 acakXMonster(
                     m
                 );
@@ -565,6 +745,7 @@ function perbaruiMonster(){
         if(
             !pemain.mati &&
             m.hidup &&
+            m.status !== "mati" &&
             jarakMonster < 60
         ){
 
@@ -572,32 +753,43 @@ function perbaruiMonster(){
                 m.cooldownSerang <= 0
             ){
 
-                pemain.hp -=
-                m.damage;
+                m.cooldownSerang = 90;
 
                 if(
-                    pemain.hp <= 0
+                    m.ai === "azure"
                 ){
-                    pemain.hp = 0;
-                    pemain.mati = true;
-                }
-
-                buatDamage(
-                    pemain.x,
-                    pemain.y,
-                    "-" + m.damage,
-                    "#ffff00"
-                );
-
-                m.cooldownSerang = 60;
-
-                if(
-                    m.x <
-                    pemain.x
-                ){
-                    pemain.knockbackX = 12;
+                    m.status = "serang";
+                    m.frame = 0;
+                    m.frameTimer = 0;
+                    m.delaySerang = 24;
+                    m.serangSudahKena = false;
                 }else{
-                    pemain.knockbackX = -12;
+
+                    pemain.hp -=
+                    m.damage;
+
+                    if(
+                        pemain.hp <= 0
+                    ){
+                        pemain.hp = 0;
+                        pemain.mati = true;
+                    }
+
+                    buatDamage(
+                        pemain.x,
+                        pemain.y,
+                        "-" + m.damage,
+                        "#ffff00"
+                    );
+
+                    if(
+                        m.x <
+                        pemain.x
+                    ){
+                        pemain.knockbackX = 12;
+                    }else{
+                        pemain.knockbackX = -12;
+                    }
                 }
             }
         }
@@ -617,6 +809,13 @@ function patroliMonster(){
     ){
 
         if(
+            m.ai === "azure" &&
+            m.status === "mati"
+        ){
+            continue;
+        }
+
+        if(
             m.hidup &&
             m.x > m.xMax
         ){
@@ -630,4 +829,4 @@ function patroliMonster(){
             m.arah = 1;
         }
     }
-        }
+    }

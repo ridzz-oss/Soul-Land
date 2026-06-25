@@ -4,6 +4,9 @@ document.getElementById("duniaGame");
 const konteks =
 kanvas.getContext("2d");
 
+konteks.imageSmoothingEnabled =
+false;
+
 function ubahUkuran(){
 
     kanvas.width =

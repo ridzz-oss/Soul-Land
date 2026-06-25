@@ -592,14 +592,37 @@ function perbaruiMonster(){
                 m.frame++;
             }
 
-            m.timerGenangan--;
-
             if(
-                m.timerGenangan <= 0
+                m.hidup
             ){
+                m.timerGenangan--;
 
-                m.hidup = false;
-                m.respawnTimer = 300;
+                if(
+                    m.timerGenangan <= 0
+                ){
+                    m.hidup = false;
+                    m.respawnTimer = 300;
+                    m.status = "respawn";
+                }
+            }else{
+                m.respawnTimer--;
+
+                if(
+                    m.respawnTimer <= 0
+                ){
+                    m.hp = m.hpMaks;
+                    m.hidup = true;
+                    m.status = "jalan";
+                    m.frame = 0;
+                    m.frameTimer = 0;
+                    m.timerGenangan = 0;
+                    m.delaySerang = 0;
+                    m.serangSudahKena = false;
+
+                    acakXMonster(
+                        m
+                    );
+                }
             }
 
             continue;
@@ -608,7 +631,6 @@ function perbaruiMonster(){
         if(
             m.hidup
         ){
-
             m.x +=
             m.kecepatan *
             m.arah;
@@ -627,7 +649,6 @@ function perbaruiMonster(){
                 if(
                     m.frameTimer >= 10
                 ){
-
                     m.frameTimer = 0;
                     m.frame++;
 
@@ -715,15 +736,9 @@ function perbaruiMonster(){
                 m.respawnTimer <= 0
             ){
 
-                m.hp =
-                m.hpMaks;
-
-                m.hidup =
-                true;
-
-                m.status =
-                "jalan";
-
+                m.hp = m.hpMaks;
+                m.hidup = true;
+                m.status = "jalan";
                 m.frame = 0;
                 m.frameTimer = 0;
                 m.timerGenangan = 0;
@@ -765,8 +780,7 @@ function perbaruiMonster(){
                     m.serangSudahKena = false;
                 }else{
 
-                    pemain.hp -=
-                    m.damage;
+                    pemain.hp -= m.damage;
 
                     if(
                         pemain.hp <= 0

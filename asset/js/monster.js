@@ -222,123 +222,156 @@ function gambarMonster(
             8
         );
 
-    }else if(
-        m.ai === "roh"
-    ){
-        // roh biru bentuk slime
+}else if(
+    m.ai === "roh"
+){
+    // roh biru slime besar
 
-        /* BODY BLOBS */
+    /* PUNCAK */
 
-        konteks.fillStyle =
-        "#4fbfff";
+    konteks.fillStyle =
+    "#8ee8ff";
 
-        konteks.fillRect(
-            x + 14,
-            y + 2,
-            20,
-            8
-        );
+    konteks.fillRect(
+        x + 20,
+        y,
+        8,
+        4
+    );
 
-        konteks.fillRect(
-            x + 8,
-            y + 8,
-            32,
-            8
-        );
+    konteks.fillRect(
+        x + 16,
+        y + 4,
+        16,
+        4
+    );
 
-        konteks.fillRect(
-            x + 4,
-            y + 14,
-            40,
-            10
-        );
+    /* KEPALA */
 
-        konteks.fillRect(
-            x + 2,
-            y + 22,
-            44,
-            10
-        );
+    konteks.fillStyle =
+    "#7ad9ff";
 
-        konteks.fillRect(
-            x + 4,
-            y + 30,
-            40,
-            8
-        );
+    konteks.fillRect(
+        x + 10,
+        y + 8,
+        28,
+        6
+    );
 
-        konteks.fillRect(
-            x + 8,
-            y + 36,
-            32,
-            6
-        );
+    konteks.fillRect(
+        x + 6,
+        y + 14,
+        36,
+        6
+    );
 
-        konteks.fillStyle =
-        "#7ad9ff";
+    /* BADAN ATAS */
 
-        konteks.fillRect(
-            x + 10,
-            y + 6,
-            28,
-            6
-        );
+    konteks.fillStyle =
+    "#66ccff";
 
-        konteks.fillRect(
-            x + 8,
-            y + 16,
-            32,
-            6
-        );
+    konteks.fillRect(
+        x + 2,
+        y + 20,
+        44,
+        8
+    );
 
-        /* MATA */
+    konteks.fillRect(
+        x,
+        y + 28,
+        48,
+        8
+    );
 
-        konteks.fillStyle =
-        "#fff";
+    /* BADAN TENGAH */
 
-        konteks.fillRect(
-            x + 13,
-            y + 16,
-            8,
-            8
-        );
+    konteks.fillRect(
+        x,
+        y + 36,
+        48,
+        8
+    );
 
-        konteks.fillRect(
-            x + 27,
-            y + 16,
-            8,
-            8
-        );
+    /* BADAN BAWAH */
 
-        konteks.fillStyle =
-        "#000";
+    konteks.fillRect(
+        x + 2,
+        y + 44,
+        44,
+        4
+    );
 
-        konteks.fillRect(
-            x + 16,
-            y + 19,
-            2,
-            2
-        );
+    /* KILAU */
 
-        konteks.fillRect(
-            x + 30,
-            y + 19,
-            2,
-            2
-        );
+    konteks.fillStyle =
+    "#bdf4ff";
 
-        /* MULUT / GARIS BAWAH */
+    konteks.fillRect(
+        x + 10,
+        y + 12,
+        10,
+        3
+    );
 
-        konteks.fillStyle =
-        "#2b88b8";
+    konteks.fillRect(
+        x + 8,
+        y + 18,
+        6,
+        2
+    );
 
-        konteks.fillRect(
-            x + 16,
-            y + 28,
-            16,
-            2
-        );
-    }
+    /* MATA */
+
+    konteks.fillStyle =
+    "#ffffff";
+
+    konteks.fillRect(
+        x + 13,
+        y + 24,
+        8,
+        8
+    );
+
+    konteks.fillRect(
+        x + 27,
+        y + 24,
+        8,
+        8
+    );
+
+    /* PUPIL */
+
+    konteks.fillStyle =
+    "#000";
+
+    konteks.fillRect(
+        x + 16,
+        y + 27,
+        2,
+        2
+    );
+
+    konteks.fillRect(
+        x + 30,
+        y + 27,
+        2,
+        2
+    );
+
+    /* MULUT */
+
+    konteks.fillStyle =
+    "#2f8eb8";
+
+    konteks.fillRect(
+        x + 18,
+        y + 37,
+        12,
+        2
+    );
+            }
+    
 
     /* Bar Hp */
 

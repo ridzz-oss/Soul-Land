@@ -773,7 +773,7 @@ function perbaruiMonster(){
                     m.status = "serang";
                     m.frame = 0;
                     m.frameTimer = 0;
-                    m.delaySerang = 24;
+                    m.delaySerang = 16;
                     m.serangSudahKena = false;
                 }else{
 

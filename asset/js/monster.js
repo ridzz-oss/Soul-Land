@@ -392,7 +392,7 @@ function gambarMonster(
                 rect[2],
                 rect[3],
                 x - 8,
-                y,
+                y + 1,
                 64,
                 64
             );

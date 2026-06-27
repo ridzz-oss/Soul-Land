@@ -385,6 +385,10 @@ function gambarMonster(
         if(
             rect
         ){
+            konteks.save();
+            if(
+                m.arah === -1
+            ){
             konteks.drawImage(
                 gambarAzurePurba,
                 rect[0],
@@ -397,6 +401,7 @@ function gambarMonster(
                 64
             );
         }
+      }
     }
 
     /* Bar Hp */

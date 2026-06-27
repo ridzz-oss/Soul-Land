@@ -349,46 +349,64 @@ function gambarMonster(
             8
         );
 
-    }else if(
-        m.ai === "azure"
+}else if(
+    m.ai === "azure"
+){
+
+    let source =
+    frameAzureJalan;
+
+    if(
+        m.status === "serang"
     ){
-        /* Azure Purba */
+        source =
+        frameAzureSerang;
+    }else if(
+        m.status === "mati"
+    ){
+        source =
+        frameAzureMati;
+    }
 
-        let frameY =
-        0;
+    const rect =
+    source[
+        m.frame
+    ];
 
-        let source =
-        frameAzureJalan;
+    if(
+        rect
+    ){
 
-        if(
-            m.status === "jalan"
-        ){
-            source = frameAzureJalan;
-            frameY = 0;
-        }else if(
-            m.status === "serang"
-        ){
-            source = frameAzureSerang;
-            frameY = 0;
-        }else if(
-            m.status === "mati"
-        ){
-            source = frameAzureMati;
-            frameY = 0;
-        }
-
-        const rect =
-        source[
-            m.frame
-        ];
+        konteks.save();
 
         if(
-            rect
+            m.arah === -1
         ){
-            konteks.save();
-            if(
-                m.arah === -1
-            ){
+
+            konteks.translate(
+                x - 8 + 64,
+                y + 2
+            );
+
+            konteks.scale(
+                -1,
+                1
+            );
+
+            konteks.drawImage(
+                gambarAzurePurba,
+                rect[0],
+                rect[1],
+                rect[2],
+                rect[3],
+                0,
+                0,
+                64,
+                64
+            );
+
+        }else{
+
             konteks.drawImage(
                 gambarAzurePurba,
                 rect[0],
@@ -400,9 +418,14 @@ function gambarMonster(
                 64,
                 64
             );
+
         }
-      }
+
+        konteks.restore();
+
     }
+
+        }
 
     /* Bar Hp */
 
